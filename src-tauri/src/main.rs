@@ -4,9 +4,8 @@
 )]
 #[tauri::command]
 fn greet(name: &str) -> String {
-   format!("Hello, {}!", name)
+   format!("mi l sugi {}!", name)
 }
-
 fn main() {
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![greet])

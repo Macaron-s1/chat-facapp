@@ -56,8 +56,11 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 800,
-        "width": 576,
+        "height": 600,
+        "width": 500,
+        "x": 1000,
+        "y": 150,
+        "alwaysOnTop": true,
         "resizable": true,
         "title": "chat-facapp"
       }
