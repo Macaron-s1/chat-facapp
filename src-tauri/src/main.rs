@@ -1,19 +1,21 @@
 #![cfg_attr(
-  all(not(debug_assertions), target_os = "windows"),
-  windows_subsystem = "windows"
-)]
-#[macro_use] extern crate rocket;
+    all(not(debug_assertions), target_os = "windows"),
+    windows_subsystem = "windows"
+ )]
+
+ #[macro_use] extern crate rocket;
 
 use async_trait::async_trait;
-use rocket::fs::{relative, FileServer};
 use rocket::http::Method;
-use rocket::response::stream::{EventStream, Event};
 use rocket::route::{Handler, Outcome};
-use rocket::serde::{Serialize, Deserialize};
-use rocket::{Data, Request, Route, State, Shutdown};
+use rocket::{Data, Request, Route};
 use tauri::{Manager, generate_context};
-use rocket::tokio::sync::broadcast::{channel, Sender, error::RecvError};
+use rocket::{State, Shutdown};
+use rocket::fs::{relative, FileServer};
 use rocket::form::Form;
+use rocket::response::stream::{EventStream, Event};
+use rocket::serde::{Serialize, Deserialize};
+use rocket::tokio::sync::broadcast::{channel, Sender, error::RecvError};
 use rocket::tokio::select;
 
 #[derive(Clone)]
@@ -33,13 +35,13 @@ impl Handler for WindowHandler {
         self.window
             .emit("from-rust", format!("message"))
             .expect("failed to emit");
-        Outcome::from(request, "success")
-    }
+            todo!()    
+}
 }
 impl From<WindowHandler> for Vec<Route> {
-  fn from(value: WindowHandler) -> Self {
-      vec![Route::new(Method::Get, "/", value)]
-  }
+    fn from(value: WindowHandler) -> Self {
+        vec![Route::new(Method::Get, "/", value)]
+    }
 }
 
 #[derive(Debug, Clone, FromForm, Serialize, Deserialize)]
@@ -53,12 +55,8 @@ struct Message {
     pub message: String,
 }
 
-#[post("/message", data = "<form>")]
-fn post(form: Form<Message>, queue: &State<Sender<Message>>) {
-    // A send 'fails' if there are no active subscribers. That's okay.
-    let _res = queue.send(form.into_inner());
-}
-
+/// Returns an infinite stream of server-sent events. Each event is a message
+/// pulled from a broadcast queue sent by the `post` handler.
 #[get("/events")]
 async fn events(queue: &State<Sender<Message>>, mut end: Shutdown) -> EventStream![] {
     let mut rx = queue.subscribe();
@@ -78,6 +76,13 @@ async fn events(queue: &State<Sender<Message>>, mut end: Shutdown) -> EventStrea
     }
 }
 
+/// Receive a message from a form submission and broadcast it to any receivers.
+#[post("/message", data = "<form>")]
+fn post(form: Form<Message>, queue: &State<Sender<Message>>) {
+    // A send 'fails' if there are no active subscribers. That's okay.
+    let _res = queue.send(form.into_inner());
+}
+
 #[rocket::main]
 async fn main() {
     tauri::Builder::default()
@@ -93,9 +98,7 @@ async fn main() {
                 .mount("/", FileServer::from(relative!("../dist")))
                 .launch().await;
             });
-
             Ok(())
-
         })
         .run(generate_context!())
         .expect("error while running tauri application");
