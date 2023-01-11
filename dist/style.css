@@ -18,7 +18,20 @@
       text-shadow: rgb(77, 81, 86) 0px 0px 0px;
       height: 100%;
   }
-  
+
+  .header {
+    position: relative;
+    top: 0; left: 0; right: 0;
+    background-color: #1b1b1b;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+    padding: 20px 15%;
+    display: flex;
+    font-weight: bolder;
+    font-size: 25px;
+    color: red;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
   main {
       display: flex;
   }
@@ -127,9 +140,14 @@
   
   form button {
      border: none;
-     padding: 10px 15px;
+     padding: 10px 20px;
+     font-size: 13px;
      color: white;
-     background-color: grey;
+     background-color: var(--callout-dark);
+  }
+
+  form button:hover {
+    background-color: #2c2c2c;
   }
   
   #sidebar #new-room {
