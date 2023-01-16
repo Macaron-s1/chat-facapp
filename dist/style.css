@@ -18,7 +18,20 @@
       text-shadow: rgb(77, 81, 86) 0px 0px 0px;
       height: 100%;
   }
-  
+
+  .header {
+    position: relative;
+    top: 0; left: 0; right: 0;
+    background-color: #1b1b1b;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+    padding: 20px 15%;
+    display: flex;
+    font-weight: bolder;
+    font-size: 25px;
+    color: red;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
   main {
       display: flex;
   }
@@ -44,16 +57,16 @@
   }
   
   #sidebar button {
-      height: 40px;
-      margin-bottom: 1px;
-      background: var(--bg-light);
-      color: #fff;
-      overflow: hidden;
+     height: 40px;
+     margin-bottom: 1px;
+     background: var(--bg-light);
+     color: #fff;
+     overflow: hidden;
   }
   
   #sidebar button.active {
       background: var(--bg-dark);
-      color: var(--callout);
+      color: rgba(255, 99, 71, 1);
       font-weight: bold;
       box-shadow: 0px 2px 2px rgba(0,0,0,0.9);
       z-index: 10;
@@ -115,18 +128,26 @@
   }
   
   input#username {
-      text-align: right;
+      text-align: center;
       flex: 1 25%;
       width: 25%;
       border-right: 1px solid #303030;
   }
   
   input#message {
-      flex: 10 100%;
+     flex: 10 100%;
   }
   
   form button {
-      padding: 0 10px;
+     border: none;
+     padding: 10px 20px;
+     font-size: 13px;
+     color: white;
+     background-color: var(--callout-dark);
+  }
+
+  form button:hover {
+    background-color: #2c2c2c;
   }
   
   #sidebar #new-room {
@@ -183,4 +204,12 @@
   #status.reconnecting {
       background-color: red;
       color: #fff;
+  }
+
+  .text{
+     background-color: grey;
+     padding: 10px 20px;
+     color: black;
+     border-radius: 10px 10px 10px 10px;
+     max-width: max-content;
   }
