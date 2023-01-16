@@ -1,7 +1,5 @@
 {
   "dependencies": {
-    "@tauri-apps/api": "^1.2.0",
-    "@tauri-apps/cli": "^1.2.2",
     "plotly.js-dist": "^2.16.3"
   }
 }
