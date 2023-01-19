@@ -2,8 +2,8 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Rocket Rooms</title>
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico.png">
+    <title>FacApp Chat</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/utlogo.png">
     <link rel="stylesheet" href="/reset.css">
     <link rel="stylesheet" href="/style.css">
     <script src="/script.js" charset="utf-8" defer></script>
@@ -12,7 +12,7 @@
     <main>
       <div id="sidebar">
         <div class="header">
-          <h1>🚀Rocket Rooms</h1>
+          <h1>📬FacApp Chat</h1>
         </div>
         <div id="status" class="pending"></div>
 
@@ -24,12 +24,13 @@
 
         <form id="new-room">
           <input type="text" name="name" id="name" autocomplete="off"
-              placeholder="Add a new room..." maxlength="29"></input>
+              placeholder="Adaugă o cameră..." maxlength="29"></input>
           <button type="submit">+</button>
         </form>
       </div>
 
       <div id="content">
+        <img class="backgroundchat" src="images/backgroundchat.png" alt="backgroundchat">
 
         <div id="messages">
           <template id="message">
@@ -42,10 +43,10 @@
 
         <form id="new-message">
           <input type="text" name="username" id="username" maxlength="19"
-            placeholder="guest" autocomplete="off">
+            placeholder="nume" autocomplete="off">
           <input type="text" name="message" id="message" autocomplete="off"
-              placeholder="Send a message..." autofocus>
-          <button type="submit" id="send">SEND</button>
+              placeholder="Trimite un mesaj..." autofocus>
+          <button type="submit" id="send">TRIMITE</button>
         </form>
       </div>
     </main>

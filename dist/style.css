@@ -9,6 +9,9 @@
   * {
       font-size: 14px;
   }
+  html {
+    overflow-x: hidden;
+  }
   
   html, body, main {
       background-color: var(--bg-dark);
@@ -78,8 +81,17 @@
       display: flex;
       flex-direction: column;
   }
-  
+  .backgroundchat{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 20%;
+    pointer-events: none
+  }
   .message {
+    position: relative;
       display: flex;
       flex-direction: column;
       padding: 10px 0;
@@ -180,7 +192,7 @@
   }
   
   #status.pending::before {
-    content: "status: connected";
+    content: "status: neconectat";
   }
   
   #status.pending {
@@ -189,7 +201,7 @@
   }
   
   #status.connected::before {
-    content: "status: connected";
+    content: "status: conectat";
   }
   
   #status.connected {
@@ -198,7 +210,7 @@
   }
   
   #status.reconnecting::before {
-    content: "status: reconnecting";
+    content: "status: se reconectează";
   }
   
   #status.reconnecting {

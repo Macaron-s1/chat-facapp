@@ -11,13 +11,15 @@ let messageField = newMessageForm.querySelector("#message");
 let usernameField = newMessageForm.querySelector("#username");
 let roomNameField = newRoomForm.querySelector("#name");
 
+let randomValue = Math.floor(Math.random() * 100);
+
 var STATE = {
-  room: "lobby",
+  room: "General Chat",
   rooms: {},
   connected: false,
 }
 
-// Generate a color from a "hash" of a string. Thanks, internet.
+// Genereaza o culoare dintr-un hash al unui string
 function hashColor(str) {
   let hash = 0;
   for (var i = 0; i < str.length; i++) {
@@ -28,8 +30,8 @@ function hashColor(str) {
   return `hsl(${hash % 360}, 100%, 70%)`;
 }
 
-// Add a new room `name` and change to it. Returns `true` if the room didn't
-// already exist and false otherwise.
+// Adauge un room nou.. true daca room-ul nu exista
+// si fals invers.
 function addRoom(name) {
   if (STATE[name]) {
     changeRoom(name);
@@ -48,7 +50,7 @@ function addRoom(name) {
   return true;
 }
 
-// Change the current room to `name`, restoring its messages.
+// Schimba camera curenta cu "name", ii atribuie mesajele
 function changeRoom(name) {
   if (STATE.room == name) return;
 
@@ -67,8 +69,8 @@ function changeRoom(name) {
   STATE[name].forEach((data) => addMessage(name, data.username, data.message))
 }
 
-// Add `message` from `username` to `room`. If `push`, then actually store the
-// message. If the current room is `room`, render the message.
+// Adauga mesaj de la user la `room`. Daca trimite stocheaza mesajul
+// Daca camera curenta este `room`, reda mesajul
 function addMessage(room, username, message, push = false) {
   if (push) {
     STATE[room].push({ username, message })
@@ -79,11 +81,12 @@ function addMessage(room, username, message, push = false) {
     node.querySelector(".message .username").textContent = username;
     node.querySelector(".message .username").style.color = hashColor(username);
     node.querySelector(".message .text").textContent = message;
+
     messagesDiv.appendChild(node);
   }
 }
 
-// Subscribe to the event source at `uri` with exponential backoff reconnect.
+// Subscribe la eventul sursa `uri` prin reconectare.
 function subscribe(uri) {
   var retryTime = 1;
 
@@ -100,7 +103,7 @@ function subscribe(uri) {
 
     events.addEventListener("open", () => {
       setConnectedStatus(true);
-      console.log(`connected to event stream at ${uri}`);
+      console.log(`conectat la event stream la ${uri}`);
       retryTime = 1;
     });
 
@@ -110,7 +113,7 @@ function subscribe(uri) {
 
       let timeout = retryTime;
       retryTime = Math.min(64, retryTime * 2);
-      console.log(`connection lost. attempting to reconnect in ${timeout}s`);
+      console.log(`conexiune pierdută. se reconectează în ${timeout} secunde`);
       setTimeout(() => connect(uri), (() => timeout * 1000)());
     });
   }
@@ -118,28 +121,28 @@ function subscribe(uri) {
   connect(uri);
 }
 
-// Set the connection status: `true` for connected, `false` for disconnected.
+// `true` pentru conectat, `false` pentru deconectat
 function setConnectedStatus(status) {
   STATE.connected = status;
   statusDiv.className = (status) ? "connected" : "reconnecting";
 }
 
-// Let's go! Initialize the world.
+// Initializare.
 function init() {
-  // Initialize some rooms.
-  addRoom("lobby");
-  addRoom("rocket");
-  changeRoom("lobby");
-  addMessage("lobby", "Rocket", "Hey! Open another browser tab, send a message.", true);
-  addMessage("rocket", "Rocket", "This is another room. Neat, huh?", true);
+  // Se initializeaza 2 camere
+  addRoom("General Chat");
+  addRoom("Facultate Chat");
+  changeRoom("General Chat");
+  addMessage("General Chat", "Server", "Salut 😁! Acesta este chat-ul general, fii politicos ❤️", true);
+  addMessage("Facultate Chat", "Server", "Bun venit la Facultatea de Inginerie Electrică și Știința Calculatoarelor 🖥️👍!", true);
 
-  // Set up the form handler.
+  // Setari pentru utilizare
   newMessageForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const room = STATE.room;
     const message = messageField.value;
-    const username = usernameField.value || "guest";
+    const username = usernameField.value || "nume" + randomValue;
     if (!message || !username) return;
 
     if (STATE.connected) {
@@ -152,7 +155,7 @@ function init() {
     }
   })
 
-  // Set up the new room handler.
+  // Initializare finala pentru trimitere
   newRoomForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -162,10 +165,10 @@ function init() {
     roomNameField.value = "";
     if (!addRoom(room)) return;
 
-    addMessage(room, "Rocket", `Look, your own "${room}" room! Nice.`, true);
+    addMessage(room, "Server", `Bravo, camera "${room}" este deținuă de tine! Comunică eficient 👌`, true);
   })
 
-  // Subscribe to server-sent events.
+  // subscribe la /events din RUST
   subscribe("/events");
 }
 
