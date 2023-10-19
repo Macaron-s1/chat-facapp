@@ -1,3 +1,3 @@
 # chat-facapp
- Chat proiect facultate scris in Rust 
+ Un discord + whatsapp combinatie scris in Rust 
  Folosire: Tauri si Rocket
