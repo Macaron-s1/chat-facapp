@@ -1,3 +1,3 @@
 # chat-facapp
- Un discord + whatsapp combinatie scris in Rust 
- Folosire: Tauri si Rocket
+A chat type application written in Rust - Tauri - Rocket
+Creating rooms and talking to people at distance
