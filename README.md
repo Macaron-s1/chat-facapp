@@ -27,7 +27,7 @@ This project allows users to create or join chat rooms and communicate in real-t
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/Macaron-s1/chat-facapp.git
+git clone https://github.com/Macaron-s1/chat-facapp
 cd chat-facapp
 ```
 
